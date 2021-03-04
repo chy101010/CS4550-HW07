@@ -7,6 +7,7 @@ defmodule Hw07Web.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Hw07Web.Plugs.FetchSession
   end
 
   pipeline :api do
@@ -17,6 +18,9 @@ defmodule Hw07Web.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/sessions", SessionController
+    resources "/events", EventController
+    resources "/users", UserController
   end
 
   # Other scopes may use custom stacks.

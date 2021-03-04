@@ -21,6 +21,21 @@
         <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <% end %>
 
+
+      <%= if @conn.assigns[:user] do%>
+        User: <%= @user.name %> | 
+        <%= link("Logout", 
+          to: Routes.session_path(@conn, :delete),
+          method: :delete) 
+        %>
+      <% else %>
+        <%= form_for @conn, Routes.session_path(@conn, :create), 
+          fn f ->%>
+            <%= text_input f, :email, class: "form-control" %>
+            <%= submit "Login", class: "btn btn-primary" %>
+          <% end %>
+      <% end %>
+      <%= link "Register", to: Routes.user_path(@conn, :new) %>
       <%= @inner_content %>
     </div>
   </body>

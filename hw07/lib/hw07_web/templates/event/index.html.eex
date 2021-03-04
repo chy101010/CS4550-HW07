@@ -1,6 +1,17 @@
-<div class="row">
+<h1>Listing Events</h1>
 
-  <%= for event <- @events do %>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Description</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for event <- @events do %>
     <tr>
       <td><%= event.name %></td>
       <td><%= event.date %></td>
@@ -13,4 +24,7 @@
       </td>
     </tr>
 <% end %>
-</div>
+  </tbody>
+</table>
+
+<span><%= link "New Event", to: Routes.event_path(@conn, :new) %></span>
