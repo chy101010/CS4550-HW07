@@ -4,7 +4,7 @@ defmodule Hw07.Repo.Migrations.CreateEvents do
   def change do
     create table(:events) do
       add :name, :string, null: false
-      add :date, :date, null: false
+      add :date, :utc_datetime, null: false
       add :description, :string
 
       timestamps()

@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row marginTop">
-    <h2>Login:</h2>
-    <div class="col-5" >
     <%= if !@conn.assigns[:user] do %> 
+      <div class="col-5">
+        <h2>Login:</h2>
         <%= form_for @conn, Routes.session_path(@conn, :create), 
           fn f ->%>
           <%= text_input f, :email, placeholder: "Email", class: "form-control text inline" %>
@@ -14,8 +14,12 @@
     </div>
   </div>
   <div class="row marginTop height-adjust">
-    <h2> Create Events: </h2>
-    <div class="col-5 padding">
+    <%= if @conn.assigns[:user] do%>
+      <div class="col-5 offset-3">
+    <%= else %>
+      <div class="col-5">
+    <%= end %>
+        <h2> Create Events: </h2>
         <%= link("Create Event",
         to: Routes.event_path(@conn, :new),
         class: "link text-primary")%>

@@ -3,7 +3,7 @@ defmodule Hw07.Events.Event do
   import Ecto.Changeset
 
   schema "events" do
-    field :date, :date
+    field :date, :utc_datetime
     field :description, :string
     field :name, :string
 

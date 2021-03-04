@@ -14,14 +14,32 @@ defmodule Hw07Web.EventController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"event" => event_params}) do
-    IO.inspect(event_params);
-    case Events.create_event(event_params) do
+  def minute(date) do
+    if(String.slice(date, 15, 2) == "AM") do
+      String.slice(date, 9, 2);
+    else
+      Integer.to_string(12 + String.to_integer(String.slice(date, 9, 2)));
+    end
+  end
+
+  def dateMap(date) do
+    result = 
+    %{}
+    |> Map.put("month", String.slice(date, 0, 2))
+    |> Map.put("day", String.slice(date, 3, 2))
+    |> Map.put("year", "20" <> String.slice(date, 6, 2))
+    |> Map.put("hour", minute(date))
+    |> Map.put("minute", String.slice(date, 12, 2))
+    %{"date" => result};
+  end
+
+  def create(conn, event_params) do
+    params = Map.merge(dateMap(Map.get(event_params, "date")), Map.get(event_params, "event"));
+    case Events.create_event(params) do
       {:ok, event} ->
         conn
         |> put_flash(:info, "Event created successfully.")
         |> redirect(to: Routes.event_path(conn, :show, event))
-
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
