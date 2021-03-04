@@ -18,9 +18,9 @@ defmodule Hw07Web.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    resources "/sessions", SessionController
     resources "/events", EventController
     resources "/users", UserController
+    resources "/sessions", SessionController, only: [:create, :delete], singleton: true
   end
 
   # Other scopes may use custom stacks.

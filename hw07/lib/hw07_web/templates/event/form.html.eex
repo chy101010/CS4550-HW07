@@ -5,19 +5,27 @@
     </div>
   <% end %>
 
-  <%= label f, :name %>
-  <%= text_input f, :name %>
-  <%= error_tag f, :name %>
-
   <%= label f, :date %>
   <%= date_select f, :date %>
   <%= error_tag f, :date %>
 
-  <%= label f, :description %>
-  <%= text_input f, :description %>
-  <%= error_tag f, :description %>
-
+  <form>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+        <%= label f, :name %>
+        <%= text_input f, :name, class: "form-control" %>
+        <%= error_tag f, :name %>
+    </div>
+    <div class="form-group col-md-6">
+        <%= label f, :description %>
+        <%= text_input f, :description, class: "form-control"%>
+        <%= error_tag f, :description %>
+    </div>
+  </div>
   <div>
     <%= submit "Save" %>
   </div>
+</form>
+
+  
 <% end %>

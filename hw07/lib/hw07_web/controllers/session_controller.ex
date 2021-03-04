@@ -20,7 +20,7 @@ defmodule Hw07Web.SessionController do
     conn
     |> delete_session(:user_id)
     |> put_flash(:info, "Logged out")
-    |> redirect(to: Routes.page_path(@conn, :index))
+    |> redirect(to: Routes.page_path(conn, :index))
   end
 
 

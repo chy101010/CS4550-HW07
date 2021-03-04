@@ -1,7 +1,48 @@
 /* This file is for your main application css. */
 @import "bootstrap";
 
+
 /* Alerts and form errors */
 .invalid-feedback {
   display: block;
+}
+
+p {
+  margin: 0%;
+  padding-bottom: 1%;
+}
+
+.full-height {
+  height: 1000px;
+}
+
+.blue {
+  padding-top: 1%;
+  background-color: lightblue;
+}
+
+.inline {
+  display: inline;
+}
+
+.marginTop {
+  margin-top: 5%;
+}
+
+.text {
+  text-align: center;
+  padding-top: 0px;
+  width: 300px;
+}
+
+.padding {
+  padding-top: 10px;
+}
+
+.height-adjust {
+  height: 100px;
+}
+
+.link:link {
+  text-decoration: none;
 }
