@@ -14,4 +14,4 @@ fi
 SECRET_KEY_BASE=$(cat "$CFGD/base")
 export SECRET_KEY_BASE
 
-_build/prod/rel/bulls/bin/bulls start
+_build/prod/rel/hw07/bin/hw07 start
