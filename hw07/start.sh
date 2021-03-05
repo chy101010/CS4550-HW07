@@ -12,7 +12,8 @@ if [ ! -e "$CFGD/base" ]; then
 fi
 
 DB_PASS=$(cat "$CFGD/db_pass")
-export DATABASE_URL=ecto://hw07:$PASS@localhost/hw07_prod
+export DATABASE_URL=ecto://hw07:$DB_PASS@localhost/hw07_prod
+echo $DATABASE_URL
 
 SECRET_KEY_BASE=$(cat "$CFGD/base")
 export SECRET_KEY_BASE
