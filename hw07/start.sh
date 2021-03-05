@@ -3,6 +3,8 @@
 
 export MIX_ENV=prod
 export PORT=4802
+export DATABASE_URL=ecto://hw07:Joi7Yo3A@localhost/hw07_app
+
 
 CFGD=$(readlink -f ~/.config/bulls)
 

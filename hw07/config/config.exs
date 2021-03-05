@@ -10,6 +10,13 @@ use Mix.Config
 config :hw07,
   ecto_repos: [Hw07.Repo]
 
+config :hw07, Hw07.Repo,
+database: "hw07_app",
+username: "hw07",
+password: "Joi7Yo3A",
+hostname: "localhost",
+port: "5432"
+
 # Configures the endpoint
 config :hw07, Hw07Web.Endpoint,
   url: [host: "localhost"],

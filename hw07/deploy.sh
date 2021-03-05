@@ -3,9 +3,10 @@
 export MIX_ENV=prod
 export PORT=4802
 export SECRET_KEY_BASE=insecure
+export DATABASE_URL=ecto://hw07:Joi7Yo3A@localhost/hw07_app
 
 mix deps.get --only prod
-mix compile
+MIX_ENV=prod mix compile
 
 CFGD=$(readlink -f ~/.config/bulls)
 
