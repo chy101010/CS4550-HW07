@@ -10,7 +10,7 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :hw07, Hw07Web.Endpoint,
-  url: [host: "hw07.citronk.com", port: 80],
+  url: [host: "events.citronk.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
