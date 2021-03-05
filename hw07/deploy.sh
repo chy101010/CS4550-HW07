@@ -3,27 +3,30 @@
 export MIX_ENV=prod
 export PORT=4802
 export SECRET_KEY_BASE=insecure
-export DATABASE_URL=ecto://hw07:Joi7Yo3A@localhost/hw07_app
+export DATABASE_URL=ecto://hw07:bad@localhost/hw07_prod
 
 mix deps.get --only prod
-MIX_ENV=prod mix compile
+mix compile
 
-CFGD=$(readlink -f ~/.config/bulls)
+CFGD=$(readlink -f ~/.config/events)
 
 if [ ! -d "$CFGD" ]; then
 	mkdir -p $CFGD
-	echo "Hello One"
 fi
-
-echo "Hello Two"
 
 if [ ! -e "$CFGD/base" ]; then
 	mix phx.gen.secret > "$CFGD/base"
-	echo "Hello Three"
+fi
+
+if [ ! -e "$CFGD/events" ]; then
+	pwgen 12 1 > "$CFGD/base"
 fi
 
 SECRET_KEY_BASE=$(cat "$CFGD/base")
 export SECRET_KEY_BASE
+
+DB_PASS=$(cat "$CFGD/db_pass")
+export DATABASE_URL=ecto://hw07:$PASS@localhost/hw07_prod
 
 npm install --prefix ./assets
 npm run deploy --prefix ./assets

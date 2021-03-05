@@ -2,7 +2,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name hw07.citronk.com;
+    server_name events.citronk.com;
 
     location / {
         proxy_pass http://localhost:4802;
