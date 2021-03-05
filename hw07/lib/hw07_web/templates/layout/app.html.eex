@@ -30,15 +30,15 @@
             <%= link "update", to: Routes.user_path(@conn, :update, @user) %> 
           <%= else %>
             User: unknown
-          <% end %>
+          <%= end %>
         </div>  
       </div>
       <%= if get_flash(@conn, :info) do %>
         <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <% end %>
+      <%= end %>
       <%= if get_flash(@conn, :error) do %>
         <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-      <% end %>
+      <%= end %>
       
       <%= @inner_content %>
 
