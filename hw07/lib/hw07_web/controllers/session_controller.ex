@@ -1,7 +1,7 @@
 defmodule Hw07Web.SessionController do
   use Hw07Web, :controller
 
-  # Starter Code
+  # Starter Code From Lecture
   def create(conn, %{"email" => email}) do
     user = Hw07.Users.get_user_by_email(email);
     if(user) do 

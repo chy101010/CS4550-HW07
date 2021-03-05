@@ -19,18 +19,15 @@
     <div role="main" class="container-fluid">
       <div class="row justify-content-md-between blue">
         <div class="col offset-3">
-          <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-            <p><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %> </p>
-          <% end %>
           <p><%= link "Home", to: Routes.page_path(@conn, :index) %></p>
         </div>
         <div class="col offset-1">
           <%= if @conn.assigns[:user] do%>
             User: <%= @user.name %> | 
-            <%= link("Logout", 
-              to: Routes.session_path(@conn, :delete),
-              method: :delete) 
+            <%= link("Logout", to: Routes.session_path(@conn, :delete), method: :delete) 
             %>
+            |
+            <%= link "update", to: Routes.user_path(@conn, :update, @user) %> 
           <%= else %>
             User: unknown
           <% end %>
@@ -44,6 +41,7 @@
       <% end %>
       
       <%= @inner_content %>
+
     </div>
   </body>
 </html>

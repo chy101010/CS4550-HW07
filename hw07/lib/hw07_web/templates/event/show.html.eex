@@ -1,23 +1,20 @@
-<h1>Show Event</h1>
-
-<ul>
-
-  <li>
-    <strong>Name:</strong>
-    <%= @event.name %>
-  </li>
-
-  <li>
-    <strong>Date:</strong>
-    <%= @event.date %>
-  </li>
-
-  <li>
-    <strong>Description:</strong>
-    <%= @event.description %>
-  </li>
-
-</ul>
-
-<span><%= link "Edit", to: Routes.event_path(@conn, :edit, @event) %></span>
-<span><%= link "Back", to: Routes.event_path(@conn, :index) %></span>
+<div class="container-fluid mt-5 d-flex justify-content-center">
+  <div>
+    <div class="row">
+        <h1>Show Event </h1>
+    </div>      
+    <div class="row">
+        <div class="card text-center ml-1" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title"><%= @event.name %></h5>
+            <p class="card-text">Info: <%= @event.description %></p>
+            <%= @event.date %>
+          </div>
+        <div class="card-footer text-muted">
+            <span><%= link "Edit", to: Routes.event_path(@conn, :edit, @event) %></span>
+            <span><%= link "Delete", to: Routes.event_path(@conn, :delete, @event), method: :delete, data: [confirm: "Are you sure?"] %></span>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

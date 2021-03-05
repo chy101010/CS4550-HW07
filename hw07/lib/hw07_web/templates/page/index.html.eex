@@ -1,44 +1,70 @@
 <div class="container">
-  <div class="row marginTop">
     <%= if !@conn.assigns[:user] do %> 
-      <div class="col-5">
-        <h2>Login:</h2>
-        <%= form_for @conn, Routes.session_path(@conn, :create), 
-          fn f ->%>
-          <%= text_input f, :email, placeholder: "Email", class: "form-control text inline" %>
-          <%= submit "Login", class: "btn btn-primary" %>
-          |
-          <%= link "Register", to: Routes.user_path(@conn, :new) %>
+      <div class="row mt-5">
+        <div class="mx-auto">
+          <h2>Login:</h2>
+          <%= form_for @conn, Routes.session_path(@conn, :create), 
+            fn f ->%>
+            <%= text_input f, :email, placeholder: "Email", class: "form-control text d-inline" %>
+            <%= submit "Login", class: "btn btn-primary" %>
+            |
+            <%= link "Register", to: Routes.user_path(@conn, :new) %>
+            <% end %>
+        </div>
+      </div> 
+    <% end %>
+
+    <div class="row mt-5 height-adjust">
+      <div class="col">
+        <h2> Create Events: 
+          <%= link("Create Event",
+            to: Routes.event_path(@conn, :new),
+            class: "link text-primary")
+          %> 
+        </h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="d-flex align-content-start flex-wrap offset-2">
+          <%= for event <- @events do %>
+            <div class="card text-center ml-1" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title"><%= event.name %></h5>
+                <p class="card-text">Info: <%= event.description %></p>
+                <%= event.date %>
+              </div>
+              <div class="card-footer text-muted">
+                <span><%= link "Show", to: Routes.event_path(@conn, :show, event) %></span>
+                <span><%= link "Edit", to: Routes.event_path(@conn, :edit, event) %></span>
+                <span><%= link "Delete", to: Routes.event_path(@conn, :delete, event), method: :delete, data: [confirm: "Are you sure?"] %></span>
+              </div>
+            </div>
           <% end %>
-    <% end %> 
-    </div>
-  </div>
-  <div class="row marginTop height-adjust">
-    <%= if @conn.assigns[:user] do%>
-      <div class="col-5 offset-3">
-    <%= else %>
-      <div class="col-5">
-    <%= end %>
-        <h2> Create Events: </h2>
-        <%= link("Create Event",
-        to: Routes.event_path(@conn, :new),
-        class: "link text-primary")%>
-    </div>
-  </div>
-
-
-  <%= for event <- @events do %>
-    <div class="card text-center" style="width: 18rem;">
-      <div class="card-body">
-        <h5 class="card-title"><%= event.name %></h5>
-        <p class="card-text">Info: <%= event.description %></p>
-        <%= event.date %>
-      </div>
-      <div class="card-footer text-muted">
-        <span><%= link "Show", to: Routes.event_path(@conn, :show, event) %></span>
-        <span><%= link "Edit", to: Routes.event_path(@conn, :edit, event) %></span>
-        <span><%= link "Delete", to: Routes.event_path(@conn, :delete, event), method: :delete, data: [confirm: "Are you sure?"] %></span>
       </div>
     </div>
-  <% end %>
+
+    <div class="row mt-5 height-adjust">
+      <div class="col">
+        <h2> Users: </h2>
+      </div>
+    </div>
+
+    <div class="row">
+     <div class="d-flex align-content-start flex-wrap offset-2">
+      <%= for user <- @users do %>
+            <div class="card text-center ml-1" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title"><%= user.name %></h5>
+                <p class="card-text"><%= user.email %></p>
+              </div>
+              <div class="card-footer text-muted">
+                <span><%= link "Show", to: Routes.user_path(@conn, :show, user) %></span>
+                <span><%= link "Edit", to: Routes.user_path(@conn, :edit, user) %></span>
+                <span><%= link "Delete", to: Routes.user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"] %></span>
+              </div>
+             </div>
+      <%= end %>
+     </div>
+    </div>
 </div>

@@ -1,0 +1,15 @@
+[Unit]
+Description=HW07
+
+[Service]
+Type=simple
+User=hw07
+Group=hw07
+Restart=on-failure
+Environment=LANG=en_US.UTF-8
+
+WorkingDirectory=/home/bulls/CS4550-HW05
+ExecStart=/bin/bash /home/bulls/CS4550-HW05/start.sh
+
+[Install]
+WantedBy=multi-user.target
