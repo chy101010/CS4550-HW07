@@ -2,6 +2,14 @@
 // The MiniCssExtractPlugin is used to separate it out into
 // its own CSS file.
 import "../css/app.scss"
+// 01/01/01 12:00 AM
+import flatpickr from 'flatpickr';
+flatpickr('#date', 
+    {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+    }
+);
 
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured

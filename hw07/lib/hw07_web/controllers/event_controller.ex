@@ -14,27 +14,23 @@ defmodule Hw07Web.EventController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def minute(date) do
-    if(String.slice(date, 15, 2) == "AM") do
-      String.slice(date, 9, 2);
-    else
-      Integer.to_string(12 + String.to_integer(String.slice(date, 9, 2)));
-    end
-  end
-
   def dateMap(date) do
     result = 
     %{}
-    |> Map.put("month", String.slice(date, 0, 2))
-    |> Map.put("day", String.slice(date, 3, 2))
-    |> Map.put("year", "20" <> String.slice(date, 6, 2))
-    |> Map.put("hour", minute(date))
-    |> Map.put("minute", String.slice(date, 12, 2))
+    |> Map.put("month", String.slice(date, 5, 2))
+    |> Map.put("day", String.slice(date, 8, 2))
+    |> Map.put("year", String.slice(date, 0, 4))
+    |> Map.put("hour", String.slice(date, 11, 2))
+    |> Map.put("minute", String.slice(date, 14, 2))
     %{"date" => result};
   end
 
-  def create(conn, event_params) do
-    params = Map.merge(dateMap(Map.get(event_params, "date")), Map.get(event_params, "event"));
+  def create(conn, %{"event" => event_params}) do
+    params = 
+    event_params
+    |> Map.pop("date")
+    |> elem(1)
+    |> Map.merge(dateMap(Map.get(event_params, "date")));
     case Events.create_event(params) do
       {:ok, event} ->
         conn
@@ -52,6 +48,7 @@ defmodule Hw07Web.EventController do
 
   def edit(conn, %{"id" => id}) do
     event = Events.get_event!(id)
+    IO.inspect(event);
     changeset = Events.change_event(event)
     render(conn, "edit.html", event: event, changeset: changeset)
   end
