@@ -3,6 +3,7 @@ defmodule Hw07Web.UserController do
 
   alias Hw07.Users
   alias Hw07.Users.User
+  alias Hw07Web.Photos
 
   def index(conn, _params) do
     users = Users.list_users()
@@ -15,6 +16,14 @@ defmodule Hw07Web.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
+    up = user_params["photo"]
+    user_params = 
+      if(up) do 
+        {:ok, hash} = Photos.save_photo(up.filename, up.path);
+        Map.put(user_params, "photo_hash", hash);
+      else 
+        user_params
+      end 
     case Users.create_user(user_params) do
       {:ok, user} ->
         conn
@@ -40,7 +49,15 @@ defmodule Hw07Web.UserController do
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Users.get_user!(id)
-
+    up = user_params["photo"]
+    user_params = 
+    if up do
+      # TODO: Remove old image 
+      {:ok, hash} = Photos.save_photo(up.filename, up.path)        
+      Map.put(user_params, "photo_hash", hash)
+    else
+      user_params
+    end
     case Users.update_user(user, user_params) do
       {:ok, user} ->
         conn
@@ -60,4 +77,22 @@ defmodule Hw07Web.UserController do
     |> put_flash(:info, "User deleted successfully.")
     |> redirect(to: Routes.user_path(conn, :index))
   end
+
+
+  # New controller function.
+  def photo(conn, %{"id" => id}) do
+    event = Events.get_event!(id)
+    {:ok, _name, data} = Photos.load_photo(event.photo_hash)
+    conn
+    |> put_resp_content_type("image/jpeg")
+    |> send_resp(200, data)
+  end
+    
+  # def delete(conn, %{"id" => id}) do
+    # event = Events.get_event!(id)
+    # Photos.delete_photon(event.photo_hash)
+    # conn
+    # |> put_flash(:info, "Image Deleted")
+  # end 
+    # FIXME: Remove old image
 end

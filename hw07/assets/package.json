@@ -7,7 +7,7 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
-    "bootstrap": "^4.6.0",
+    "bootstrap": "^5.0.0-beta2",
     "flatpickr": "^4.6.9",
     "jquery": "^3.6.0",
     "jquery-datetimepicker": "^2.5.21",

@@ -9,7 +9,7 @@
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
-    <%# From Starter Code%>
+    <%# From Starter Code %>
     <div role="main" class="container-fluid">
       <div class="row justify-content-md-between blue">
         <div class="col offset-3">
@@ -22,17 +22,17 @@
             %>
             |
             <%= link "update", to: Routes.user_path(@conn, :update, @user) %> 
-          <%= else %>
+          <% else %>
             User: unknown
-          <%= end %>
+          <% end %>
         </div>  
       </div>
       <%= if get_flash(@conn, :info) do %>
         <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <%= end %>
+      <% end %>
       <%= if get_flash(@conn, :error) do %>
         <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-      <%= end %>
+      <% end %>
       
       <%= @inner_content %>
 

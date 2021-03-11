@@ -1,6 +1,6 @@
 ## Starter Code From lecture
 defmodule Hw07Web.Plugs.FetchSession do
-    import Plug.Conn
+    use Hw07Web, :controller
 
     def init(args), do: args
 

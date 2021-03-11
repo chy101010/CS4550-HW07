@@ -5,6 +5,7 @@
     </div>      
     <div class="row">
         <div class="card text-center ml-1" style="width: 18rem;">
+          <img src="<%= Routes.user_path(@conn, :photo, @user) %>" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title"><%= @user.name %></h5>
             <p class="card-text"><%= @user.email %></p>

@@ -16,5 +16,28 @@
             </div>
         </div>
     </div>
+    
+    <%# Show only if invitte or inviter %>
+    <div class="row">
+      <h2>Add Comment</h2>
+      <%= if have_current_user?(@conn) do %>
+      <%= render(
+        Hw07Web.CommentView,
+        "form.html",
+        changeset: @new_comment,
+        action: Routes.comment_path(@conn, :create)
+        ) %>
+      <% end %>
+    </div>
+
+    <h2>Comments</h2>
+    <%= for comm <- @event.comments do %>
+      <div class="card">
+        <div class="card-body">
+          <p>Posted by <%= comm.user.name %></p>
+          <p class="card-text"><%= comm.body %></p>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>

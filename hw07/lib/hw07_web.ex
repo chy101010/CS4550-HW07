@@ -20,9 +20,10 @@ defmodule Hw07Web do
   def controller do
     quote do
       use Phoenix.Controller, namespace: Hw07Web
-
+      
       import Plug.Conn
       import Hw07Web.Gettext
+      import Hw07Web.Helpers
       alias Hw07Web.Router.Helpers, as: Routes
     end
   end
@@ -65,9 +66,10 @@ defmodule Hw07Web do
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
-
+      
       import Hw07Web.ErrorHelpers
       import Hw07Web.Gettext
+      import Hw07Web.Helpers
       alias Hw07Web.Router.Helpers, as: Routes
     end
   end

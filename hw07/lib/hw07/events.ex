@@ -101,4 +101,9 @@ defmodule Hw07.Events do
   def change_event(%Event{} = event, attrs \\ %{}) do
     Event.changeset(event, attrs)
   end
+
+
+  def load_comment(%Event{} = event) do
+    Repo.preload(event, [comments: :user])
+  end
 end

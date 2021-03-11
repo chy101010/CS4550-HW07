@@ -1,3 +1,4 @@
+<%# Some of the code are derived from: https://github.com/NatTuck/scratch-2021-01/blob/master/notes-4550/12-uploads/notes.md %>
 <%= form_for @changeset, @action, fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">

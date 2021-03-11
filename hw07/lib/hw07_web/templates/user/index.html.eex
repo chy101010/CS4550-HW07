@@ -19,7 +19,7 @@
                 <span><%= link "Delete", to: Routes.user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"] %></span>
               </div>
              </div>
-      <%= end %>
+      <% end %>
      </div>
     </div>
   </div>
