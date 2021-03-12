@@ -6,6 +6,7 @@ defmodule Hw07.Events do
   import Ecto.Query, warn: false
   alias Hw07.Repo
 
+  alias Hw07.Invites.Invite
   alias Hw07.Events.Event
 
   @doc """
@@ -37,6 +38,7 @@ defmodule Hw07.Events do
   """
   def get_event!(id), do: Repo.get!(Event, id)
 
+  
   @doc """
   Creates a event.
 
@@ -87,7 +89,7 @@ defmodule Hw07.Events do
   """
   def delete_event(%Event{} = event) do
     Repo.delete(event)
-  end
+  end 
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking event changes.
@@ -102,8 +104,30 @@ defmodule Hw07.Events do
     Event.changeset(event, attrs)
   end
 
-
   def load_comment(%Event{} = event) do
     Repo.preload(event, [comments: :user])
+  end
+
+  def load_invite(%Event{} = event) do
+    Repo.preload(event, [invites: :user])
+  end
+  
+  def load_user(%Event{} = event) do
+    Repo.preload(event, [:user])
+  end
+
+  def get_events_owned(user_id) do 
+    query = from(e in Event, where: e.user_id == ^user_id, select: e)
+    Repo.all(query)
+  end 
+
+  def get_events_invited(user_id) do
+    query  = from(
+      e in Event, 
+      join: inv in Invite,
+      on: e.id == inv.event_id, 
+      where: inv.user_id == ^user_id,
+      select: e)
+    Repo.all(query)
   end
 end

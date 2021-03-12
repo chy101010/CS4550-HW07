@@ -5,10 +5,15 @@ defmodule Hw07Web.EventController do
   alias Hw07.Events
   alias Hw07.Events.Event
   alias Hw07.Comments
+  alias Hw07.Invites
   alias Hw07Web.Plugs
-  plug Plugs.RequireUser when action in [:new, :edit, :create, :update]
+  plug Plugs.RequireUser when action in [:new, :edit, :create, :update, :show]
+  # Fetch event to @conn 
   plug :fetch_event when action in [:show, :photo, :edit, :update, :delete]
+  # Requires the event owner in update/edit/delete
   plug :require_owner when action in [:edit, :update, :delete]
+  # Requires owner and invitee in show
+  plug :require_participate when action in [:show]
 
   def fetch_event(conn, _args) do
     id = conn.params["id"]
@@ -17,23 +22,26 @@ defmodule Hw07Web.EventController do
   end 
 
   def require_owner(conn, _args) do
-    user = conn.assigns[:user]
-    post = conn.assigns[:event]
-
-    if user.id == post.user_id do
+    if is_owner?(conn, conn.assigns[:event].id) do
       conn
     else 
       conn
-      |> put_flash(:error, "That isn't yours.")
+      |> put_flash(:error, "No access")
       |> redirect(to: Routes.page_path(conn, :index))
       |> halt()
     end
   end
 
-  def index(conn, _params) do
-    events = Events.list_events()
-    render(conn, "index.html", events: events)
-  end
+  def require_participate(conn, _arg) do
+    if(belong_to_event?(conn, conn.params["id"])) do
+      conn
+    else 
+      conn
+      |> put_flash(:error, "No access")
+      |> redirect(to: Routes.page_path(conn, :index))
+      |> halt()
+    end 
+  end 
 
   def new(conn, _params) do
     changeset = Events.change_event(%Event{})
@@ -71,12 +79,28 @@ defmodule Hw07Web.EventController do
   def show(conn, %{"id" => id}) do
     event = conn.assigns[:event]
     |> Events.load_comment()
+    |> Events.load_invite()
+    |> Events.load_user()
     comm = %Comments.Comment{
       event_id: event.id,
       user_id: current_user_id(conn),
     }
+    invite = %Invites.Invite{
+      event_id: event.id
+    }
+    invites = Invites.get_invite_by_userid_eventid(current_user_id(conn), id)
+    track_invite =
+    if(!Enum.empty?(invites)) do
+      Invites.change_invite(List.first(invites))
+    else 
+      nil
+    end 
+
+    # IO.inspect(Invites.load_user(List.first(invites)))
+    # IO.inspect(Comments.load_user())
+    new_invite = Invites.change_invite(invite);
     new_comment = Comments.change_comment(comm);
-    render(conn, "show.html", event: event, new_comment: new_comment)
+    render(conn, "show.html", event: event, new_comment: new_comment, new_invite: new_invite, track_invite: track_invite)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -92,7 +116,6 @@ defmodule Hw07Web.EventController do
         conn
         |> put_flash(:info, "Event updated successfully.")
         |> redirect(to: Routes.event_path(conn, :show, event))
-
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", event: event, changeset: changeset)
     end

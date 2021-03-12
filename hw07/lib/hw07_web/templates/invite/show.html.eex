@@ -1,0 +1,11 @@
+<div class="container">
+  <h1>Show Invite</h1>
+  <ul>
+    <li>
+      <strong>Response:</strong>
+      <%= @invite.response %>
+    </li>
+  </ul>
+
+  <span><%= link "Edit", to: Routes.invite_path(@conn, :edit, @invite) %> </span>
+</div>

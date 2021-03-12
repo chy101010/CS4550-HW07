@@ -1,3 +1,4 @@
+<div class="container">
 <%= form_for @changeset, @action, fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
@@ -6,11 +7,9 @@
   <% end %>
   
   <%= hidden_input f, :event_id %>
-  <%= hidden_input f, :event_id %>
 
   <div class="form-group">
-    <%= label f, :body %>
-    <%= textarea f, :body, class: "form-control" %>
+    <%= textarea f, :body, class: "form-control", placeholder: "write a comment..." %>
     <%= error_tag f, :body %>
   </div>
   
@@ -18,3 +17,4 @@
     <%= submit "Save", class: "btn btn-outline-primary"%>
   </div>
 <% end %>
+</div>

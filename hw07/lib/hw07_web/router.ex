@@ -20,8 +20,9 @@ defmodule Hw07Web.Router do
     get "/", PageController, :index
     resources "/events", EventController
     get "/users/:id/photo", UserController, :photo
-    resources "/users", UserController
-    resources "/comments", CommentController
+    resources "/users", UserController, except: [:index]
+    resources "/comments", CommentController, except: [:index]
+    resources "/invites", InviteController, except: [:index]
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
   end
 

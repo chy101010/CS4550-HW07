@@ -1,0 +1,18 @@
+<div class="container">
+  <%= form_for @changeset, @action, fn f -> %>
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+
+    <%= hidden_input f, :event_id %>
+
+    <div class="form-group">
+      <%= label f, :user_email %>
+      <%= text_input f, :user_email, class: "d-inline", style: "width:25rem; height:2.5rem;" %>
+      <%= error_tag f, :user_email %>
+      <%= submit "Save", class: "d-inline btn btn-outline-primary"%>
+    </div>
+  <% end %>
+</div>

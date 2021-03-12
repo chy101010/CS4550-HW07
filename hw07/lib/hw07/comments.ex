@@ -101,4 +101,9 @@ defmodule Hw07.Comments do
   def change_comment(%Comment{} = comment, attrs \\ %{}) do
     Comment.changeset(comment, attrs)
   end
+
+
+  def load_user(%Comment{} = comment) do
+    Repo.preload(comment, [:user])
+  end
 end

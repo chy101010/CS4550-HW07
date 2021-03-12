@@ -6,7 +6,7 @@ defmodule Hw07.Repo.Migrations.CreateEvents do
       add :name, :string, null: false
       add :date, :utc_datetime, null: false
       add :description, :string
-      add :user_id, references(:users), null: false
+      add :user_id, references(:users, on_delete: :delete_all), null: false
       
       timestamps()
     end

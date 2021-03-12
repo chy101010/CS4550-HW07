@@ -3,14 +3,16 @@ defmodule Hw07.Events.Event do
   import Ecto.Changeset
   alias Hw07.Users
   alias Hw07.Comments
+  alias Hw07.Invites
 
   schema "events" do
     field :description, :string
     field :date, :utc_datetime
     field :name, :string
     belongs_to :user, Users.User
+    
     has_many :comments, Comments.Comment
-
+    has_many :invites, Invites.Invite
 
     timestamps()
   end

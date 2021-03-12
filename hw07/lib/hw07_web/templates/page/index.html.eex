@@ -25,26 +25,44 @@
           </h2>
         </div>
       </div>
-    <% end %>
 
     <div class="row">
+      <h2 class="offset-2">Owned Events</h2>
       <div class="d-flex align-content-start flex-wrap offset-2">
-          <%= for event <- @events do %>
+          <%= for event <- @owned_events do%>
             <div class="card text-center ml-1" style="width: 18rem;">
               <div class="card-body">
                 <h5 class="card-title"><%= event.name %></h5>
                 <p class="card-text">Info: <%= event.description %></p>
                 <%= event.date %>
               </div>
-              <%= if have_user?(@conn) do %>
-                <div class="card-footer text-muted">
-                  <span><%= link "Show", to: Routes.event_path(@conn, :show, event) %></span>
-                  <span><%= link "Edit", to: Routes.event_path(@conn, :edit, event) %></span>
-                  <span><%= link "Delete", to: Routes.event_path(@conn, :delete, event), method: :delete, data: [confirm: "Are you sure?"] %></span>
-                </div>
-              <% end %>
+              <div class="card-footer text-muted">
+                <span><%= link "Show", to: Routes.event_path(@conn, :show, event) %></span>
+                <span><%= link "Edit", to: Routes.event_path(@conn, :edit, event) %></span>
+                <span><%= link "Delete", to: Routes.event_path(@conn, :delete, event), method: :delete, data: [confirm: "Are you sure?"] %></span>
+              </div>
+            </div>
+          <% end %>
+      </div>  
+    </div>
+    <div class="row">
+      <h2 class="offset-2">Participated Events</h2>
+      <div class="d-flex align-content-start flex-wrap offset-2">
+          <%= for event <- @invited_events do%>
+            <div class="card text-center ml-1" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title"><%= event.name %></h5>
+                <p class="card-text">Info: <%= event.description %></p>
+                <%= event.date %>
+              </div>
+              <div class="card-footer text-muted">
+                <span><%= link "Show", to: Routes.event_path(@conn, :show, event) %></span>
+                <span><%= link "Edit", to: Routes.event_path(@conn, :edit, event) %></span>
+                <span><%= link "Delete", to: Routes.event_path(@conn, :delete, event), method: :delete, data: [confirm: "Are you sure?"] %></span>
+              </div>
             </div>
           <% end %>
       </div>
     </div>
+    <% end %>
 </div>

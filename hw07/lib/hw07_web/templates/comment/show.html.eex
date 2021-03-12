@@ -10,4 +10,3 @@
 </ul>
 
 <span><%= link "Edit", to: Routes.comment_path(@conn, :edit, @comment) %></span>
-<span><%= link "Back", to: Routes.comment_path(@conn, :index) %></span>

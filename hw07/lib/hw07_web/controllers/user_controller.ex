@@ -81,8 +81,8 @@ defmodule Hw07Web.UserController do
 
   # New controller function.
   def photo(conn, %{"id" => id}) do
-    event = Events.get_event!(id)
-    {:ok, _name, data} = Photos.load_photo(event.photo_hash)
+    user = Users.get_user!(id)
+    {:ok, _name, data} = Photos.load_photo(user.photo_hash)
     conn
     |> put_resp_content_type("image/jpeg")
     |> send_resp(200, data)
