@@ -28,6 +28,7 @@ export SECRET_KEY_BASE
 DB_PASS=$(cat "$CFGD/db_pass")
 export DATABASE_URL=ecto://hw07:$DB_PASS@localhost/hw07_prod
 
+mix ecto.reset
 mix ecto.create
 mix ecto.migrate
 
