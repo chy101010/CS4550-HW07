@@ -66,4 +66,11 @@ defmodule Hw07Web.Photos do
         :crypto.hash(:sha256, data)
         |> Base.encode16(case: :lower)
     end
+
+    def get_default() do
+        photos = Application.app_dir(:hw07, "priv/photo")
+        path = Path.join(photos, "default.jpg")
+        {:ok, hash} = save_photo("default.jpg", path)
+        hash
+    end 
 end 
