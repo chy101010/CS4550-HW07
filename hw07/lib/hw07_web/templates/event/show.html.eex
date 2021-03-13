@@ -1,6 +1,6 @@
 <div class="container-fuild mt-5">
   <div class="row">
-    <div class="col-4 offset-3">
+    <div class="col-5 offset-2">
       <h1> Event </h1>
         <div class="card text-center ml-1" style="width: 40%;">
           <div class="p-3">
@@ -11,7 +11,7 @@
             <p class="m-0 card-text">Host: <%= @event.user.name%> </p>
             <p class="m-0 card-text">Info: <%= @event.description %></p>
             <p class="card-text"><%= "http://events.citronk.com/events/" <> Integer.to_string(@event.id) %>
-            <%= @event.date %>
+            <p class="card-text"><%= @event.date %> </p>
           </div>
         <%= if is_owner?(@conn, @event.id) do %>
           <div class="card-footer text-muted">
@@ -100,8 +100,8 @@
       <h2>Comments</h2>
       <%= for comm <- @event.comments do %>
           <div class="float-start p-1 mt-1" style="width:80%;">
-              <div class="float-start d-inline rounded bg-secondary" style="width:80px; height:70px;">
-                  <img src="<%= Routes.user_path(@conn, :photo, comm.user) %>" class="card-img-top" style="width: 100%; height: 90%;" alt="...">
+              <div class="float-start ms-1" style="width:80px; height:70px;">
+                  <img src="<%= Routes.user_path(@conn, :photo, comm.user) %>" style="width: 100%; height: 90%;" alt="...">
               </div>
               <div class="float-start border ms-1 overflow-auto text-break" style="width:90%; height:100px;">
                 <span>User: <strong><%= comm.user.name %></strong></span>
