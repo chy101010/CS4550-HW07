@@ -7,9 +7,9 @@ defmodule Hw07Web.EventController do
   alias Hw07.Comments
   alias Hw07.Invites
   alias Hw07Web.Plugs
-  plug Plugs.RequireUser when action in [:new, :edit, :create, :update, :show]
+  plug Plugs.RequireUser when action in [:new, :create, :show, :edit, :update, :show, :delete]
   # User must fully Register to use the site
-  plug Plugs.RequireRegistration when action in [:new, :edit, :create, :update, :show]
+  plug Plugs.RequireRegistration when action in [:new, :create, :edit, :update, :delete]
   # Fetch event to @conn 
   plug :fetch_event when action in [:show, :photo, :edit, :update, :delete]
   # Requires the event owner in update/edit/delete

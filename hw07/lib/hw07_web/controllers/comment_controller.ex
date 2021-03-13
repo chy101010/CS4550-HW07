@@ -6,7 +6,9 @@ defmodule Hw07Web.CommentController do
   alias Hw07.Events
   alias Hw07.Invites
   alias Hw07Web.Plugs
-  plug Plugs.RequireUser when action in [:edit, :create, :update]
+  plug Plugs.RequireUser when action in [:new, :create, :edit, :update, :delete]
+  # Require fully registered
+  plug Plugs.RequireRegistration when action in [:new, :create, :edit, :update, :delete]
   # Assign the comment to #conn
   plug :fetch_comment when action in [:edit, :update, :delete]
   # Only Commenter and Owner can edit/update/delete a comment

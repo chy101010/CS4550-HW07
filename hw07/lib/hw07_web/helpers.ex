@@ -65,4 +65,10 @@ defmodule Hw07Web.Helpers do
         comm = Comments.get_comment!(comm_id) 
         comm.user_id == user_id || is_owner?(conn, comm.event_id)
     end  
+
+    def is_registered?(conn) do
+        IO.puts("called")
+        IO.inspect(conn.assigns[:user].name != nil)
+        conn.assigns[:user].name != nil
+    end
 end 

@@ -6,9 +6,9 @@ defmodule Hw07Web.InviteController do
   alias Hw07.Users
   alias Hw07Web.Plugs
   alias Hw07.Events
-  plug Plugs.RequireUser when action in [:edit, :create, :update, :show]
+  plug Plugs.RequireUser when action in [:create, :show, :edit, :update, :delete]
   # User must fully Register to use the site
-  plug Plugs.RequireRegistration when action in [:edit, :create, :update, :show]
+  plug Plugs.RequireRegistration when action in [:create, :edit, :update, :delete]
   # Fetch invite to @conn 
   plug :fetch_invite when action in [:show, :edit, :update, :delete]
   # Fetch event to @conn 

@@ -8,16 +8,17 @@
           </div>
           <div class="card-body">
             <h5 class="card-title"><%= @event.name %></h5>
-            <p class="card-text">Host: <%= @event.user.name%> </p>
-            <p class="card-text">Info: <%= @event.description %></p>
+            <p class="m-0 card-text">Host: <%= @event.user.name%> </p>
+            <p class="m-0 card-text">Info: <%= @event.description %></p>
+            <p class="card-text"><%= "http://events.citronk.com/events/" <> Integer.to_string(@event.id) %>
             <%= @event.date %>
           </div>
-        <div class="card-footer text-muted">
-          <%= if is_owner?(@conn, @event.id) do %>
-            <span><%= link "Edit", to: Routes.event_path(@conn, :edit, @event) %></span>
-            <span><%= link "Delete", to: Routes.event_path(@conn, :delete, @event), method: :delete, data: [confirm: "Are you sure?"] %></span>
-          <% end %>
-        </div>
+        <%= if is_owner?(@conn, @event.id) do %>
+          <div class="card-footer text-muted">
+              <span><%= link "Edit", to: Routes.event_path(@conn, :edit, @event) %></span>
+              <span><%= link "Delete", to: Routes.event_path(@conn, :delete, @event), method: :delete, data: [confirm: "Are you sure?"] %></span>
+          </div>
+        <% end %>
       </div>
     </div>
 
@@ -35,6 +36,9 @@
       
       <div class="row d-flex flex-wrap">
       <h2>Invitees</h2>
+      <%= if !is_registered?(@conn) do %>
+        <span style="color:red;">Complete The Registration By Getting A Name</span>
+      <% end %>
       <%= for invite <- @event.invites do %>
         <div class="card" style="width: 15rem;">
           <div class="card-body">
@@ -48,22 +52,24 @@
             <p><%= invite.user.email %></p>
             <p class="card-text"><%= invite.response %></p>
           </div>
-          <div class="card-footer text-muted">
-            <%= if is_owner?(@conn, invite.event_id) do %>
+          <%= if is_owner?(@conn, invite.event_id) do %>
+            <div class="card-footer text-muted">
               <span><%= link "Delete", to: Routes.invite_path(@conn, :delete, invite), method: :delete, data: [confirm: "Are you sure?"] %></span>
-            <% end %>
-            <%= if own_invite?(@conn, invite.id) do %>
-              <span>
-                <%= render(
-                  Hw07Web.InviteView,
-                  "edit.html",
-                  conn: @conn,
-                  invite: invite,
-                  changeset: @track_invite,
-                )%>
-              </span>
-            <% end %>
-          </div>
+            </div>
+          <% end %>
+          <%= if own_invite?(@conn, invite.id) && is_registered?(@conn) do %>
+            <div class="card-footer text-muted">
+            <span>
+              <%= render(
+                Hw07Web.InviteView,
+                "edit.html",
+                conn: @conn,
+                invite: invite,
+                changeset: @track_invite,
+              )%>
+            </span>
+            </div>
+          <% end %>
         </div>
       <% end %>
       </div>
@@ -72,21 +78,23 @@
 </div>
 
 <div class="container-fuild mt-5">
-  <div class="row">
-    <div class="w-50 mx-auto mt-5">
-      <h2>Add Comment</h2>
-      <%= if have_current_user?(@conn) do %>
-        <div style="width:50%;">
-        <%= render(
-          Hw07Web.CommentView,
-          "form.html",
-          changeset: @new_comment,
-          action: Routes.comment_path(@conn, :create)
-          ) %>
-        </div>
-      <% end %>
+  <%= if is_owner?(@conn, @event.id) || (is_registered?(@conn) && belong_to_event?(@conn, @event_id))do %>
+    <div class="row">
+      <div class="w-50 mx-auto mt-5">
+        <h2>Add Comment</h2>
+        <%= if have_current_user?(@conn) do %>
+          <div style="width:50%;">
+          <%= render(
+            Hw07Web.CommentView,
+            "form.html",
+            changeset: @new_comment,
+            action: Routes.comment_path(@conn, :create)
+            ) %>
+          </div>
+        <% end %>
+      </div>
     </div>
-  </div>
+  <% end %>
   <div class="row">
     <div class="w-50 mx-auto mt-5">
       <h2>Comments</h2>
