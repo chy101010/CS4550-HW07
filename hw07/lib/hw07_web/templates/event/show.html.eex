@@ -78,7 +78,7 @@
 </div>
 
 <div class="container-fuild mt-5">
-  <%= if is_owner?(@conn, @event.id) || (is_registered?(@conn) && belong_to_event?(@conn, @event_id))do %>
+  <%= if is_owner?(@conn, @event.id) || (is_registered?(@conn) && belong_to_event?(@conn, @event.id))do %>
     <div class="row">
       <div class="mt-5 offset-2">
         <h2>Comments</h2>
