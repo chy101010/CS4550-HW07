@@ -5,6 +5,7 @@ defmodule Hw07Web.InviteController do
   alias Hw07.Invites.Invite
   alias Hw07.Users
   alias Hw07Web.Plugs
+  alias Hw07Web.Photos
   alias Hw07.Events
   plug Plugs.RequireUser when action in [:create, :show, :edit, :update, :delete]
   # User must fully Register to use the site
@@ -46,7 +47,7 @@ defmodule Hw07Web.InviteController do
         user = 
         if(!get_user) do
           # Create User 
-          {result, user} = Users.create_user(%{"email" => user_email})
+          {result, user} = Users.create_user(%{"email" => user_email, "photo_hash" => Photos.get_default()})
           if(result == :error) do
             conn
             |> put_flash(:error, "Something Went Wrong, Email Format?")
