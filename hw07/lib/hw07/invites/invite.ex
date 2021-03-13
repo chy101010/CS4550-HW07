@@ -17,7 +17,7 @@ defmodule Hw07.Invites.Invite do
   def changeset(invite, attrs) do
     invite
     |> cast(attrs, [:response, :event_id, :user_id])
-    |> unique_constraint(:user_id)
+    |> unique_constraint([:event_id, :user_id])
     |> validate_required([:response, :event_id, :user_id])
   end
 end

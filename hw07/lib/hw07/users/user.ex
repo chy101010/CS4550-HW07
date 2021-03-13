@@ -19,7 +19,7 @@ defmodule Hw07.Users.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:email, :name, :photo_hash])
-    |> validate_required([:name, :email])
+    |> validate_required([:email])
     |> unique_constraint(:email)
     |> validate_format(:email, ~r/^[\w.!#$%&’*+\-\/=?\^`{|}~]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/i)
   end

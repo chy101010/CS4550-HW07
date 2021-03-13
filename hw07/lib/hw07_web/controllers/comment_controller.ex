@@ -6,11 +6,9 @@ defmodule Hw07Web.CommentController do
   alias Hw07.Events
   alias Hw07.Invites
   alias Hw07Web.Plugs
-  plug Plugs.RequireUser when action in [:new, :edit, :create, :update, :show]
+  plug Plugs.RequireUser when action in [:edit, :create, :update]
   # Assign the comment to #conn
-  plug :fetch_comment when action in [:edit, :update, :show, :delete]
-  # Only Invitees and Owner read a comment
-  plug :require_participate when action in [:show]
+  plug :fetch_comment when action in [:edit, :update, :delete]
   # Only Commenter and Owner can edit/update/delete a comment
   plug :require_commenter_access when action in [:edit, :update, :delete]
   # Assign the associate event to #conn
@@ -25,18 +23,7 @@ defmodule Hw07Web.CommentController do
   def fetch_event(conn, _arg) do
     event = Events.get_event!(conn.assigns[:comment].event_id)
     assign(conn, :event, event)
-  end 
-
-  def require_participate(conn, _arg) do
-    if(belong_to_event?(conn, conn.assigns[:comment].event_id)) do
-      conn
-    else 
-      conn
-      |> put_flash(:error, "No access")
-      |> redirect(to: Routes.page_path(conn, :index))
-      |> halt()
-    end 
-  end 
+  end  
 
   def require_commenter_access(conn, _arg) do
     id = conn.params["id"]
@@ -70,9 +57,10 @@ defmodule Hw07Web.CommentController do
         |> Map.put("user_id", current_user_id(conn))
         case Comments.create_comment(comment_params) do
           {:ok, comment} ->
+            event = Events.get_event!(event_id)
             conn
             |> put_flash(:info, "Comment created successfully.")
-            |> redirect(to: Routes.comment_path(conn, :show, comment))
+            |> redirect(to: Routes.event_path(conn, :show, event))
           {:error, %Ecto.Changeset{} = changeset} ->
             render(conn, "new.html", changeset: changeset)
         end
@@ -81,12 +69,6 @@ defmodule Hw07Web.CommentController do
         |> put_flash(:error, "No access")
         |> redirect(to: Routes.page_path(conn, :index))
     end
-  end
-
-  #  Access: Event Owner and Invitee
-  def show(conn, %{"id" => id}) do
-    comment = conn.assigns[:comment]
-    render(conn, "show.html", comment: comment)
   end
 
   # Access: Event Owner and Invitee who created the comment

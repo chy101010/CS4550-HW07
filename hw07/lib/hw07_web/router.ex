@@ -18,11 +18,11 @@ defmodule Hw07Web.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    resources "/events", EventController
+    resources "/events", EventController, except: [:index]
     get "/users/:id/photo", UserController, :photo
     resources "/users", UserController, except: [:index]
-    resources "/comments", CommentController, except: [:index]
-    resources "/invites", InviteController, except: [:index]
+    resources "/comments", CommentController, except: [:index, :show, :new]
+    resources "/invites", InviteController, except: [:index, :new]
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
   end
 

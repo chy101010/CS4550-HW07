@@ -4,11 +4,20 @@ defmodule Hw07Web.UserController do
   alias Hw07.Users
   alias Hw07.Users.User
   alias Hw07Web.Photos
-
-  def index(conn, _params) do
-    users = Users.list_users()
-    render(conn, "index.html", users: users)
-  end
+  alias Hw07Web.Plugs
+  plug Plugs.RequireUser when action in [:photo, :edit, :show, :update, :delete]
+  plug :require_owner when action in [:edit, :show, :update, :delete]
+  
+  def require_owner(conn, _params) do
+    id = conn.params["id"]
+    if(conn.assigns[:user].id == String.to_integer(id)) do
+      conn
+    else
+      conn
+      |> put_flash(:error, "No Access")
+      |> redirect(to: Routes.page_path(conn, :index))
+    end 
+  end 
 
   def new(conn, _params) do
     changeset = Users.change_user(%User{})
@@ -52,7 +61,6 @@ defmodule Hw07Web.UserController do
     up = user_params["photo"]
     user_params = 
     if up do
-      # TODO: Remove old image 
       {:ok, hash} = Photos.save_photo(up.filename, up.path)        
       Map.put(user_params, "photo_hash", hash)
     else
@@ -72,10 +80,9 @@ defmodule Hw07Web.UserController do
   def delete(conn, %{"id" => id}) do
     user = Users.get_user!(id)
     {:ok, _user} = Users.delete_user(user)
-
     conn
     |> put_flash(:info, "User deleted successfully.")
-    |> redirect(to: Routes.user_path(conn, :index))
+    |> redirect(to: Routes.page_path(conn, :index))
   end
 
 
@@ -88,11 +95,4 @@ defmodule Hw07Web.UserController do
     |> send_resp(200, data)
   end
     
-  # def delete(conn, %{"id" => id}) do
-    # event = Events.get_event!(id)
-    # Photos.delete_photon(event.photo_hash)
-    # conn
-    # |> put_flash(:info, "Image Deleted")
-  # end 
-    # FIXME: Remove old image
 end

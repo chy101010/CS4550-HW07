@@ -20,6 +20,19 @@ defmodule Hw07Web.Helpers do
         conn.assigns[:event] != nil
     end 
 
+    def count_response(invites) do
+        result =
+        Enum.reduce(invites, %{"yes" => 0, "no" => 0, "maybe" => 0, "unresponded" => 0},  
+        fn inv, acc -> 
+            case inv.response do
+                "yes" -> Map.put(acc, "yes", acc["yes"] + 1)
+                "no" ->  Map.put(acc, "no", acc["no"] + 1) 
+                "maybe" -> Map.put(acc, "maybe", acc["maybe"] + 1)
+                "unresponded" -> Map.put(acc, "unresponded", acc["unresponded"] + 1)
+            end
+        end)
+    end 
+
     # Owner of the event?
     def is_owner?(conn, event_id) do
         user_id = conn.assigns[:user].id
@@ -52,5 +65,4 @@ defmodule Hw07Web.Helpers do
         comm = Comments.get_comment!(comm_id) 
         comm.user_id == user_id || is_owner?(conn, comm.event_id)
     end  
-
 end 

@@ -8,6 +8,8 @@ defmodule Hw07Web.EventController do
   alias Hw07.Invites
   alias Hw07Web.Plugs
   plug Plugs.RequireUser when action in [:new, :edit, :create, :update, :show]
+  # User must fully Register to use the site
+  plug Plugs.RequireRegistration when action in [:new, :edit, :create, :update, :show]
   # Fetch event to @conn 
   plug :fetch_event when action in [:show, :photo, :edit, :update, :delete]
   # Requires the event owner in update/edit/delete
@@ -95,12 +97,12 @@ defmodule Hw07Web.EventController do
     else 
       nil
     end 
-
-    # IO.inspect(Invites.load_user(List.first(invites)))
-    # IO.inspect(Comments.load_user())
-    new_invite = Invites.change_invite(invite);
-    new_comment = Comments.change_comment(comm);
-    render(conn, "show.html", event: event, new_comment: new_comment, new_invite: new_invite, track_invite: track_invite)
+    responses= 
+    count_response(event.invites)
+    |> Enum.map_join(", ", fn {key, val} -> "#{key}: #{val}" end)
+    new_invite = Invites.change_invite(invite)
+    new_comment = Comments.change_comment(comm)
+    render(conn, "show.html", event: event, responses: responses, new_comment: new_comment, new_invite: new_invite, track_invite: track_invite)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -126,6 +128,6 @@ defmodule Hw07Web.EventController do
     {:ok, _event} = Events.delete_event(event)
     conn
     |> put_flash(:info, "Event deleted successfully.")
-    |> redirect(to: Routes.event_path(conn, :index))
+    |> redirect(to: Routes.page_path(conn, :index))
   end
 end
