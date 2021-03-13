@@ -80,8 +80,8 @@
 <div class="container-fuild mt-5">
   <%= if is_owner?(@conn, @event.id) || (is_registered?(@conn) && belong_to_event?(@conn, @event_id))do %>
     <div class="row">
-      <div class="w-50 mx-auto mt-5">
-        <h2>Add Comment</h2>
+      <div class="mt-5 offset-2">
+        <h2>Comments</h2>
         <%= if have_current_user?(@conn) do %>
           <div style="width:50%;">
           <%= render(
@@ -96,8 +96,7 @@
     </div>
   <% end %>
   <div class="row">
-    <div class="w-50 mx-auto mt-5">
-      <h2>Comments</h2>
+    <div class="w-50 mx-auto mt-2">
       <%= for comm <- @event.comments do %>
           <div class="float-start p-1 mt-1" style="width:80%;">
               <div class="float-start ms-1" style="width:80px; height:70px;">
